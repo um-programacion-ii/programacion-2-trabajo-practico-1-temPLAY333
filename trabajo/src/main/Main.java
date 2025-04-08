@@ -5,6 +5,7 @@ import main.servicio.VehiculoService;
 
 public class Main {
     public static void main(String[] args) {
+<<<<<<< HEAD
         // Crear una instancia de VehiculoService
         VehiculoService vehiculoService = VehiculoService.getInstance();
 
@@ -16,5 +17,7 @@ public class Main {
         vehiculo1.mostrarInformacion();
         vehiculo2.mostrarInformacion();
         vehiculo3.mostrarInformacion();
+=======
+>>>>>>> origin/main
     }
 }
