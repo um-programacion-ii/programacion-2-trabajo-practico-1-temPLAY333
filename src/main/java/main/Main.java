@@ -1,6 +1,7 @@
 package main;
 
 import main.modelo.Vehiculo;
+import main.servicio.VehiculoPrinter;
 import main.servicio.VehiculoService;
 
 public class Main {
@@ -12,9 +13,11 @@ public class Main {
         Vehiculo vehiculo2 = vehiculoService.crearVehiculo("XYZ456", "Honda", 2021, 1200.0);
         Vehiculo vehiculo3 = vehiculoService.crearVehiculo("LMN789", "Ford", 2022, 1500.0);
 
-        // Imprimir los detalles de los vehículos creados
-        vehiculo1.mostrarInformacion();
-        vehiculo2.mostrarInformacion();
-        vehiculo3.mostrarInformacion();
+        // Imprimir los detalles de los vehículos con VehiculoPrinter
+        VehiculoPrinter vehiculoPrinter = VehiculoPrinter.getInstance();
+
+        vehiculoPrinter.imprimirInformacion(vehiculo1);
+        vehiculoPrinter.imprimirInformacion(vehiculo2);
+        vehiculoPrinter.imprimirInformacion(vehiculo3);
     }
 }

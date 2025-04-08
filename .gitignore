@@ -1,12 +1,13 @@
 # Archivos y directorios generados por IntelliJ IDEA
 /.idea/
 /*.iml
-/workspace.xml
+/.idea/workspace.xml
 /shelf/
 
 # Directorios de salida
 /out/
 /target/
+target/
 
 # Archivos de configuración específicos del sistema operativo
 .DS_Store
