@@ -22,7 +22,11 @@
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
+<<<<<<< HEAD
             <artifactId>junit-platform-launcher</artifactId>
+=======
+            <artifactId>junit-platform-engine</artifactId>
+>>>>>>> origin/main
             <version>1.8.1</version>
             <scope>test</scope>
         </dependency>
@@ -48,6 +52,7 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+<<<<<<< HEAD
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -71,4 +76,9 @@
         </repository>
     </repositories>
 
+=======
+            </plugins>
+        </pluginManagement>
+    </build>
+>>>>>>> origin/main
 </project>
