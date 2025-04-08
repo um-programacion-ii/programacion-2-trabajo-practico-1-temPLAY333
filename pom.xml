@@ -22,7 +22,11 @@
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
+<<<<<<< HEAD
+            <artifactId>junit-platform-launcher</artifactId>
+=======
             <artifactId>junit-platform-engine</artifactId>
+>>>>>>> origin/main
             <version>1.8.1</version>
             <scope>test</scope>
         </dependency>
@@ -48,7 +52,33 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+<<<<<<< HEAD
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
+=======
+            </plugins>
+        </pluginManagement>
+    </build>
+>>>>>>> origin/main
 </project>
