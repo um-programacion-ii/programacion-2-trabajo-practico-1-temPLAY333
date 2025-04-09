@@ -20,4 +20,9 @@ public class Camion extends Vehiculo {
     public void setTieneAcoplado(Boolean tieneAcoplado) {
         this.tieneAcoplado = tieneAcoplado;
     }
+
+    @Override
+    public String getDetallesEspecificos() {
+        return "Camión con acoplado: " + (tieneAcoplado ? "Sí" : "No");
+    }
 }

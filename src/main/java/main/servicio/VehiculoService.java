@@ -1,5 +1,7 @@
 package main.servicio;
 
+import main.modelo.Auto;
+import main.modelo.Camion;
 import main.modelo.Vehiculo;
 
 public class VehiculoService {
@@ -19,17 +21,41 @@ public class VehiculoService {
     public Vehiculo crearVehiculo(String patente, String marca, int anio, Double capacidadCargaKg) {
         // Crear un nuevo objeto Vehiculo
         try {
-            validarMarca(marca);
-            validarPatente(patente);
-            validarAnio(anio);
-            validarCapacidadCargaKg(capacidadCargaKg);
-
+            this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
         } catch (IllegalArgumentException exception) {
             System.out.println("Error al crear el vehículo: " + exception.getMessage());
-            return null;
         }
-
         return new Vehiculo(patente, marca, anio, capacidadCargaKg);
+    }
+
+    public Camion crearCamion(String patente, String marca, int anio, Double capacidadCargaKg, boolean tieneAcoplado) {
+        // Crear un nuevo objeto Camion
+
+        try {
+            this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
+            this.validarTieneAcoplado(tieneAcoplado);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Error al crear el vehículo: " + exception.getMessage());
+        }
+        return new Camion(patente, marca, anio, capacidadCargaKg, tieneAcoplado);
+    }
+
+    public Auto crearAuto(String patente, String marca, int anio, Double capacidadCargaKg, int cantidadPasajeros) {
+        // Crear un nuevo objeto Auto
+        try {
+            this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
+            this.validarCantidadPasajeros(cantidadPasajeros);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Error al crear el vehículo: " + exception.getMessage());
+        }
+        return new Auto(patente, marca, anio, capacidadCargaKg, cantidadPasajeros);
+    }
+
+    public void validarVehiculo(String patente, String marca, int anio, Double capacidadCargaKg) {
+        this.validarMarca(marca);
+        this.validarPatente(patente);
+        this.validarAnio(anio);
+        this.validarCapacidadCargaKg(capacidadCargaKg);
     }
 
     public void validarPatente(String patente) {
@@ -65,6 +91,20 @@ public class VehiculoService {
         // Validar la capacidad de carga, siempre tiene que ser positiva
         if (capacidadCargaKg == null || capacidadCargaKg <= 0) {
             throw new IllegalArgumentException("Capacidad de carga inválida. Debe ser mayor que 0.");
+        }
+    }
+
+    public void validarTieneAcoplado(Boolean tieneAcoplado) {
+        // Solo validar si el valor es nulo
+        if (tieneAcoplado == null) {
+            throw new IllegalArgumentException("El estado del acoplado no puede ser nulo.");
+        }
+    }
+
+    public void validarCantidadPasajeros(int cantidadPasajeros) {
+        // Validar la cantidad de pasajeros, siendo mayor que 0
+        if (cantidadPasajeros <= 0) {
+            throw new IllegalArgumentException("Cantidad de pasajeros inválida. Debe ser mayor que 0.");
         }
     }
 }
