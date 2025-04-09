@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-JQrLgaz)
 # 🧠 Trabajo Práctico: Sistema de Gestión de Vehículos (Java + SOLID + GitHub)
 
 ## 📌 Objetivo General
@@ -162,3 +163,39 @@ Implementar la clase base `Vehiculo` que servirá como punto de partida para la 
 ## 📝 Licencia
 
 Este trabajo es parte del curso de Programación 2 de Ingeniería en Informática. Uso educativo únicamente.
+
+--------------------------------------------------------------
+## 👤 Autores
+- Tomás Bourguet
+
+## 📜 Instrucciones de Ejecución
+1. Clona el repositorio en tu máquina local usando el comando:
+   ```bash
+   git clone https://github.com/um-programacion-ii/programacion-2-trabajo-practico-1-temPLAY333.git
+2. Abre el proyecto en tu IDE preferido (por ejemplo, IntelliJ IDEA). 
+3. Compila el proyecto utilizando las herramientas del IDE o ejecutando el comando:
+     "mvn compile"
+4. Ejecuta la clase Main para iniciar la aplicación.
+
+## 🔧 Requisitos Previos
+- Java JDK 8 o superior
+- Maven 3.6 o superior
+- IDE compatible con Java
+
+## 💻 Ejemplos de Uso
+Una vez ejecutada la aplicación, se crearán automáticamente tres vehículos de ejemplo:
+- Un vehículo genérico con patente "ABC123"
+- Un camión con patente "DEF456" y acoplado
+- Un auto con patente "GHI789" para 5 pasajeros
+
+La aplicación mostrará la información de cada vehículo y también intentará buscar un vehículo con la patente "JKL012".
+
+Para imprimir la informacion de un vehiculo, crealo usando VehiculoService y agregalo con agregarVehiculo(), dentro del archivo `Main.java`.
+
+```java
+Vehiculo vehiculo = vehiculoService.crearVehiculo("ABC123", "Toyota", 2020, 1500);
+vehiculoService.agregarVehiculo(vehiculo);
+```
+Puedes crear tanto vehiculos como autos y camiones.
+
+Para buscar vehículos por patente, puedes modificar la variable `patenteBuscada` en el mismo archivo.
