@@ -1,5 +1,6 @@
 package test.servicio;
 
+import main.modelo.Camion;
 import main.modelo.Vehiculo;
 import main.servicio.VehiculoPrinter;
 
@@ -56,6 +57,44 @@ public class VehiculoPrinterTest {
     public void testimprimirInformacionNull() {
         // Probar con un vehículo null
         vehiculoPrinter.imprimirInformacion(null);
+
+        String salida = outContent.toString();
+        assertTrue(salida.contains("No se puede imprimir un vehículo nulo"));
+    }
+
+    @Test
+    public void testimprimirInformacionCamion() {
+        // Crear un mock de Camion
+        Camion camion = mock(Camion.class);
+        when(camion.getPatente()).thenReturn("XYZ789");
+        when(camion.getMarca()).thenReturn("Ford");
+        when(camion.getAnio()).thenReturn(2018);
+        when(camion.getCapacidadCargaKg()).thenReturn(2000.0);
+        when(camion.getTieneAcoplado()).thenReturn(true);
+
+        // Ejecutar el método a probar
+        vehiculoPrinter.imprimirInformacion(camion);
+
+        // Verificar la salida
+        String salida = outContent.toString();
+        assertTrue(salida.contains("XYZ789"));
+        assertTrue(salida.contains("Ford"));
+        assertTrue(salida.contains("2018"));
+        assertTrue(salida.contains("2000.0"));
+        assertTrue(salida.contains("¿Tiene acoplado?: Sí"));
+
+        // Verificar que los métodos del mock fueron llamados
+        verify(camion).getPatente();
+        verify(camion).getMarca();
+        verify(camion).getAnio();
+        verify(camion).getCapacidadCargaKg();
+        verify(camion).getTieneAcoplado();
+    }
+
+    @Test
+    public void testimprimirInformacionCamionNull() {
+        // Probar con un camion null
+        vehiculoPrinter.imprimirInformacion((Camion) null);
 
         String salida = outContent.toString();
         assertTrue(salida.contains("No se puede imprimir un vehículo nulo"));
