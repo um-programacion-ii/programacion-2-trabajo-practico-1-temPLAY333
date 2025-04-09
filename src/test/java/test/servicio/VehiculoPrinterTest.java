@@ -5,12 +5,14 @@ import main.modelo.Camion;
 import main.modelo.Vehiculo;
 import main.servicio.VehiculoPrinter;
 
+import main.servicio.VehiculoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -130,6 +132,72 @@ public class VehiculoPrinterTest {
         verify(auto).getCapacidadCargaKg();
         verify(auto).getDetallesEspecificos();
     }
+
+    @Test
+    public void testInfoVehiculoPorPatenteCorrecta() {
+        // Mock de VehiculoService
+        VehiculoService vehiculoServiceMock = mock(VehiculoService.class);
+        doNothing().when(vehiculoServiceMock).validarPatente("DEF456");
+
+        // Crear una lista de vehículos
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        Vehiculo vehiculo1 = mock(Vehiculo.class);
+        when(vehiculo1.getPatente()).thenReturn("DEF456");
+        when(vehiculo1.getMarca()).thenReturn("Honda");
+        vehiculos.add(vehiculo1);
+
+        Vehiculo vehiculo2 = mock(Vehiculo.class);
+        when(vehiculo2.getPatente()).thenReturn("GHI789");
+        when(vehiculo2.getMarca()).thenReturn("Toyota");
+        vehiculos.add(vehiculo2);
+
+        // Ejecutar el metodo a probar
+        vehiculoPrinter.infoVehiculoPorPatente(vehiculos, "DEF456");
+
+        // Verificar la salida
+        String salida = outContent.toString();
+        assertTrue(salida.contains("DEF456"));
+        assertTrue(salida.contains("Honda"));
+    }
+
+    @Test
+    public void testInfoVehiculoPorPatenteNoEncontrado() {
+        // Mock de VehiculoService
+        VehiculoService vehiculoServiceMock = mock(VehiculoService.class);
+        doNothing().when(vehiculoServiceMock).validarPatente("ABC123");
+
+        // Crear una lista de vehículos
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        Vehiculo vehiculo = mock(Vehiculo.class);
+        when(vehiculo.getPatente()).thenReturn("ABC123");
+        vehiculos.add(vehiculo);
+
+        // Verificar la salida
+        vehiculoPrinter.infoVehiculoPorPatente(vehiculos, "DEF456");
+
+        String salida = outContent.toString();
+        assertTrue(salida.contains("No se encontró un vehículo con la patente: DEF456"));
+    }
+
+    @Test
+    public void testInfoVehiculoPorPatenteIncorrecta() {
+        // Mock de VehiculoService
+        VehiculoService vehiculoServiceMock = mock(VehiculoService.class);
+        doThrow(new IllegalArgumentException("Patente inválida.")).when(vehiculoServiceMock).validarPatente("ABC123");
+
+        // Crear una lista de vehículos
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        Vehiculo vehiculo = mock(Vehiculo.class);
+        when(vehiculo.getPatente()).thenReturn("ABC123");
+        vehiculos.add(vehiculo);
+
+        // Verificar la salida
+        vehiculoPrinter.infoVehiculoPorPatente(vehiculos, "INVALIDA");
+
+        String salida = outContent.toString();
+        assertTrue(salida.contains("Patente inválida."));
+    }
+
 
     // Restaurar System.out después de cada test
     @org.junit.jupiter.api.AfterEach

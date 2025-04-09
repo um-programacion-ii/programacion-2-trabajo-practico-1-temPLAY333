@@ -4,11 +4,14 @@ import main.modelo.Auto;
 import main.modelo.Camion;
 import main.modelo.Vehiculo;
 
+import java.util.ArrayList;
+
 public class VehiculoService {
     private static VehiculoService instance;
+    private ArrayList<Vehiculo> vehiculos;
 
     private VehiculoService() {
-        // Constructor privado para evitar instanciación externa
+        this.vehiculos = new ArrayList<>();
     }
 
     public static VehiculoService getInstance() {
@@ -16,6 +19,23 @@ public class VehiculoService {
             instance = new VehiculoService();
         }
         return instance;
+    }
+
+    public ArrayList<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
+    public void agregarVehiculo(Vehiculo vehiculo) {
+        // Agregar un vehículo a la lista
+        if (vehiculo != null) {
+            this.vehiculos.add(vehiculo);
+        } else {
+            System.out.println("Error: El vehículo no puede ser nulo.");
+        }
     }
 
     public Vehiculo crearVehiculo(String patente, String marca, int anio, Double capacidadCargaKg) {

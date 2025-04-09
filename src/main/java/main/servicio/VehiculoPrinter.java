@@ -1,14 +1,17 @@
 package main.servicio;
 
-import main.modelo.Camion;
 import main.modelo.Vehiculo;
+import main.servicio.VehiculoService;
+
+import java.util.ArrayList;
 
 public class VehiculoPrinter {
     // Singleton
     private static VehiculoPrinter instance;
+    private static VehiculoService vehiculoService;
 
     private VehiculoPrinter() {
-        // Constructor privado para evitar instanciación externa
+        vehiculoService = VehiculoService.getInstance();
     }
 
     public static VehiculoPrinter getInstance() {
@@ -33,4 +36,20 @@ public class VehiculoPrinter {
         System.out.println(vehiculo.getDetallesEspecificos()); // Polimorfismo
     }
 
+    public void infoVehiculoPorPatente (ArrayList<Vehiculo> vehiculos, String patente) {
+        try {
+            vehiculoService.validarPatente(patente);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        // Imprimir la información del vehículo con esa patente
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getPatente().equals(patente)) {
+                this.imprimirInformacion(vehiculo);
+                return;
+            }
+        }
+        System.out.println("No se encontró un vehículo con la patente: " + patente);
+    }
 }
