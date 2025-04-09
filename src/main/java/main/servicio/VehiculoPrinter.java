@@ -18,6 +18,11 @@ public class VehiculoPrinter {
     }
 
     public void imprimirInformacion(Vehiculo vehiculo) {
+        if (vehiculo == null) {
+            System.out.println("No se puede imprimir un vehículo nulo");
+            return;
+        }
+
         // Imprimir la información del vehículo
         System.out.println("Información del vehículo:");
         System.out.println("Patente: " + vehiculo.getPatente());
