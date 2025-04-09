@@ -20,15 +20,19 @@ public class VehiculoService {
 
     public Vehiculo crearVehiculo(String patente, String marca, int anio, Double capacidadCargaKg) {
         // Crear un nuevo objeto Vehiculo
-        this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
+        try {
+            this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Error al crear el vehículo: " + exception.getMessage());
+        }
         return new Vehiculo(patente, marca, anio, capacidadCargaKg);
     }
 
     public Camion crearCamion(String patente, String marca, int anio, Double capacidadCargaKg, boolean tieneAcoplado) {
         // Crear un nuevo objeto Camion
-        this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
 
         try {
+            this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
             this.validarTieneAcoplado(tieneAcoplado);
         } catch (IllegalArgumentException exception) {
             System.out.println("Error al crear el vehículo: " + exception.getMessage());
@@ -38,8 +42,8 @@ public class VehiculoService {
 
     public Auto crearAuto(String patente, String marca, int anio, Double capacidadCargaKg, int cantidadPasajeros) {
         // Crear un nuevo objeto Auto
-        this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
         try {
+            this.validarVehiculo(patente, marca, anio, capacidadCargaKg);
             this.validarCantidadPasajeros(cantidadPasajeros);
         } catch (IllegalArgumentException exception) {
             System.out.println("Error al crear el vehículo: " + exception.getMessage());
@@ -48,15 +52,10 @@ public class VehiculoService {
     }
 
     public void validarVehiculo(String patente, String marca, int anio, Double capacidadCargaKg) {
-        try {
-            this.validarMarca(marca);
-            this.validarPatente(patente);
-            this.validarAnio(anio);
-            this.validarCapacidadCargaKg(capacidadCargaKg);
-
-        } catch (IllegalArgumentException exception) {
-            System.out.println("Error al crear el vehículo: " + exception.getMessage());
-        }
+        this.validarMarca(marca);
+        this.validarPatente(patente);
+        this.validarAnio(anio);
+        this.validarCapacidadCargaKg(capacidadCargaKg);
     }
 
     public void validarPatente(String patente) {

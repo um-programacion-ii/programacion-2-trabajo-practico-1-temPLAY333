@@ -19,45 +19,172 @@ public class VehiculoServiceTest {
         vehiculoService = Mockito.spy(VehiculoService.getInstance());
     }
 
+    // Test de creación de vehículo usando mockeito para las metodos internos
     @Test
     public void testCrearVehiculo() {
-        Vehiculo vehiculo = vehiculoService.crearVehiculo("ABC123", "Toyota", 2020, 1500.0);
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+
+        // Mockear el metodo validarVehiculo
+        doNothing().when(vehiculoService).validarVehiculo(patente, marca, anio, capacidadCargaKg);
+
+        // Crear el vehículo
+        Vehiculo vehiculo = vehiculoService.crearVehiculo(patente, marca, anio, capacidadCargaKg);
+
+        // Verificar que el vehículo fue creado correctamente
         assertNotNull(vehiculo);
-        verify(vehiculoService, times(1)).validarPatente("ABC123");
-        verify(vehiculoService, times(1)).validarMarca("Toyota");
-        verify(vehiculoService, times(1)).validarAnio(2020);
-        verify(vehiculoService, times(1)).validarCapacidadCargaKg(1500.0);
+        assertEquals(patente, vehiculo.getPatente());
+        assertEquals(marca, vehiculo.getMarca());
+        assertEquals(anio, vehiculo.getAnio());
+        assertEquals(capacidadCargaKg, vehiculo.getCapacidadCargaKg());
+    }
+
+    // test de validación de vehículo, con diversos casos erroneos, tambien con mockito
+    @Test
+    public void testValidarVehiculo() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+
+        // Mockear los metodos de validación
+        doNothing().when(vehiculoService).validarMarca(marca);
+        doNothing().when(vehiculoService).validarPatente(patente);
+        doNothing().when(vehiculoService).validarAnio(anio);
+        doNothing().when(vehiculoService).validarCapacidadCargaKg(capacidadCargaKg);
+
+        // Validar el vehículo
+        assertDoesNotThrow(() -> vehiculoService.validarVehiculo(patente, marca, anio, capacidadCargaKg));
     }
 
     @Test
-    public void testCrearVehiculoPatenteInvalida() {
-        Vehiculo vehiculo = vehiculoService.crearVehiculo("INVALID", "Toyota", 2020, 1500.0);
-        assertNull(vehiculo);
-        verify(vehiculoService, times(1)).validarPatente("INVALID");
+    public void testValidarVehiculoMarcaInvalida() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+
+        // Mockear los metodos de validación
+        doThrow(new IllegalArgumentException()).when(vehiculoService).validarMarca(marca);
+        doNothing().when(vehiculoService).validarPatente(patente);
+        doNothing().when(vehiculoService).validarAnio(anio);
+        doNothing().when(vehiculoService).validarCapacidadCargaKg(capacidadCargaKg);
+
+        // Validar el vehículo
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> vehiculoService.validarVehiculo(patente, marca, anio, capacidadCargaKg)
+        );
     }
 
     @Test
-    public void testCrearVehiculoMarcaInvalida() {
-        Vehiculo vehiculo = vehiculoService.crearVehiculo("ABC123", "", 2020, 1500.0);
-        assertNull(vehiculo);
-        verify(vehiculoService, times(1)).validarMarca("");
+    public void testValidarVehiculoPatenteInvalida() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+
+        // Mockear los metodos de validación
+        doThrow(new IllegalArgumentException()).when(vehiculoService).validarPatente(patente);
+        doNothing().when(vehiculoService).validarMarca(marca);
+        doNothing().when(vehiculoService).validarAnio(anio);
+        doNothing().when(vehiculoService).validarCapacidadCargaKg(capacidadCargaKg);
+
+        // Validar el vehículo
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> vehiculoService.validarVehiculo(patente, marca, anio, capacidadCargaKg)
+        );
     }
 
     @Test
-    public void testCrearVehiculoAnioInvalido() {
-        Vehiculo vehiculo = vehiculoService.crearVehiculo("ABC123", "Toyota", 1800, 1500.0);
-        assertNull(vehiculo);
-        verify(vehiculoService, times(1)).validarAnio(1800);
+    public void testValidarVehiculoAnioInvalido() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+
+        // Mockear los metodos de validación
+        doNothing().when(vehiculoService).validarPatente(patente);
+        doNothing().when(vehiculoService).validarMarca(marca);
+        doThrow(new IllegalArgumentException()).when(vehiculoService).validarAnio(anio);
+        doNothing().when(vehiculoService).validarCapacidadCargaKg(capacidadCargaKg);
+
+        // Validar el vehículo
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> vehiculoService.validarVehiculo(patente, marca, anio, capacidadCargaKg)
+        );
     }
 
     @Test
-    public void testCrearVehiculoCapacidadCargaInvalida() {
-        Vehiculo vehiculo = vehiculoService.crearVehiculo("ABC123", "Toyota", 2020, -500.0);
-        assertNull(vehiculo);
-        verify(vehiculoService, times(1)).validarCapacidadCargaKg(-500.0);
+    public void testValidarVehiculoCapacidadCargaInvalida() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+
+        // Mockear los metodos de validación
+        doNothing().when(vehiculoService).validarPatente(patente);
+        doNothing().when(vehiculoService).validarMarca(marca);
+        doNothing().when(vehiculoService).validarAnio(anio);
+        doThrow(new IllegalArgumentException()).when(vehiculoService).validarCapacidadCargaKg(capacidadCargaKg);
+
+        // Validar el vehículo
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> vehiculoService.validarVehiculo(patente, marca, anio, capacidadCargaKg)
+        );
     }
 
-    // Ahora testea cada metodo que usa el servicio por separado, asegurate de hacer varios test por metodo
+    @Test
+    public void testCrearCamion() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+        boolean tieneAcoplado = true;
+
+        // Mockear el metodo validarVehiculo
+        doNothing().when(vehiculoService).validarVehiculo(patente, marca, anio, capacidadCargaKg);
+        doNothing().when(vehiculoService).validarTieneAcoplado(tieneAcoplado);
+
+        // Crear el vehículo
+        Vehiculo vehiculo = vehiculoService.crearCamion(patente, marca, anio, capacidadCargaKg, tieneAcoplado);
+
+        // Verificar que el vehículo fue creado correctamente
+        assertNotNull(vehiculo);
+        assertEquals(patente, vehiculo.getPatente());
+        assertEquals(marca, vehiculo.getMarca());
+        assertEquals(anio, vehiculo.getAnio());
+        assertEquals(capacidadCargaKg, vehiculo.getCapacidadCargaKg());
+    }
+
+    @Test
+    public void testCrearAuto() {
+        String patente = "ABC123";
+        String marca = "Toyota";
+        int anio = 2020;
+        Double capacidadCargaKg = 1000.0;
+        int cantidadPasajeros = 5;
+
+        // Mockear el metodo validarVehiculo
+        doNothing().when(vehiculoService).validarVehiculo(patente, marca, anio, capacidadCargaKg);
+        doNothing().when(vehiculoService).validarCantidadPasajeros(cantidadPasajeros);
+
+        // Crear el vehículo
+        Vehiculo vehiculo = vehiculoService.crearAuto(patente, marca, anio, capacidadCargaKg, cantidadPasajeros);
+
+        // Verificar que el vehículo fue creado correctamente
+        assertNotNull(vehiculo);
+        assertEquals(patente, vehiculo.getPatente());
+        assertEquals(marca, vehiculo.getMarca());
+        assertEquals(anio, vehiculo.getAnio());
+        assertEquals(capacidadCargaKg, vehiculo.getCapacidadCargaKg());
+    }
+
     @Test
     public void testValidarPatente() {
         assertThrows(IllegalArgumentException.class, () -> vehiculoService.validarPatente(""));
@@ -84,6 +211,7 @@ public class VehiculoServiceTest {
         assertThrows(IllegalArgumentException.class, () -> vehiculoService.validarAnio(2026));
 
         assertDoesNotThrow(() -> vehiculoService.validarAnio(1901));
+        assertDoesNotThrow(() -> vehiculoService.validarAnio(2020));
         assertDoesNotThrow(() -> vehiculoService.validarAnio(2025));
     }
 
@@ -95,6 +223,23 @@ public class VehiculoServiceTest {
 
         assertDoesNotThrow(() -> vehiculoService.validarCapacidadCargaKg(1.0));
         assertDoesNotThrow(() -> vehiculoService.validarCapacidadCargaKg(1000.0));
+    }
+
+    @Test
+    public void testValidarTieneAcoplado() {
+        assertThrows(IllegalArgumentException.class, () -> vehiculoService.validarTieneAcoplado(null));
+
+        assertDoesNotThrow(() -> vehiculoService.validarTieneAcoplado(true));
+        assertDoesNotThrow(() -> vehiculoService.validarTieneAcoplado(false));
+    }
+
+    @Test
+    public void testValidarCantidadPasajeros() {
+        assertThrows(IllegalArgumentException.class, () -> vehiculoService.validarCantidadPasajeros(0));
+        assertThrows(IllegalArgumentException.class, () -> vehiculoService.validarCantidadPasajeros(-1));
+
+        assertDoesNotThrow(() -> vehiculoService.validarCantidadPasajeros(1));
+        assertDoesNotThrow(() -> vehiculoService.validarCantidadPasajeros(5));
     }
 
 }

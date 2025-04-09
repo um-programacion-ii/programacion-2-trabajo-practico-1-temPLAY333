@@ -1,5 +1,6 @@
 package test.servicio;
 
+import main.modelo.Auto;
 import main.modelo.Camion;
 import main.modelo.Vehiculo;
 import main.servicio.VehiculoPrinter;
@@ -36,7 +37,7 @@ public class VehiculoPrinterTest {
         when(vehiculo.getAnio()).thenReturn(2020);
         when(vehiculo.getCapacidadCargaKg()).thenReturn(1500.0);
 
-        // Ejecutar el método a probar
+        // Ejecutar el metodo a probar
         vehiculoPrinter.imprimirInformacion(vehiculo);
 
         // Verificar la salida
@@ -65,12 +66,13 @@ public class VehiculoPrinterTest {
     @Test
     public void testimprimirInformacionCamion() {
         // Crear un mock de Camion
-        Camion camion = mock(Camion.class);
+        Vehiculo camion = mock(Camion.class);
         when(camion.getPatente()).thenReturn("XYZ789");
         when(camion.getMarca()).thenReturn("Ford");
         when(camion.getAnio()).thenReturn(2018);
         when(camion.getCapacidadCargaKg()).thenReturn(2000.0);
-        when(camion.getTieneAcoplado()).thenReturn(true);
+        when(camion.getDetallesEspecificos()).thenReturn("Camión con acoplado: Sí");
+
 
         // Ejecutar el método a probar
         vehiculoPrinter.imprimirInformacion(camion);
@@ -81,14 +83,14 @@ public class VehiculoPrinterTest {
         assertTrue(salida.contains("Ford"));
         assertTrue(salida.contains("2018"));
         assertTrue(salida.contains("2000.0"));
-        assertTrue(salida.contains("¿Tiene acoplado?: Sí"));
+        assertTrue(salida.contains("Camión con acoplado: Sí"));
 
         // Verificar que los métodos del mock fueron llamados
         verify(camion).getPatente();
         verify(camion).getMarca();
         verify(camion).getAnio();
         verify(camion).getCapacidadCargaKg();
-        verify(camion).getTieneAcoplado();
+        verify(camion).getDetallesEspecificos();
     }
 
     @Test
@@ -98,6 +100,35 @@ public class VehiculoPrinterTest {
 
         String salida = outContent.toString();
         assertTrue(salida.contains("No se puede imprimir un vehículo nulo"));
+    }
+
+    @Test
+    public void testImprimirInformacionAuto() {
+        // Crear un mock de Auto
+        Vehiculo auto = mock(Auto.class);
+        when(auto.getPatente()).thenReturn("LMN456");
+        when(auto.getMarca()).thenReturn("Honda");
+        when(auto.getAnio()).thenReturn(2021);
+        when(auto.getCapacidadCargaKg()).thenReturn(500.0);
+        when(auto.getDetallesEspecificos()).thenReturn("Auto con capacidad para 5 pasajeros.");
+
+        // Ejecutar el método a probar
+        vehiculoPrinter.imprimirInformacion(auto);
+
+        // Verificar la salida
+        String salida = outContent.toString();
+        assertTrue(salida.contains("LMN456"));
+        assertTrue(salida.contains("Honda"));
+        assertTrue(salida.contains("2021"));
+        assertTrue(salida.contains("500.0"));
+        assertTrue(salida.contains("Auto con capacidad para 5 pasajeros."));
+
+        // Verificar que los métodos del mock fueron llamados
+        verify(auto).getPatente();
+        verify(auto).getMarca();
+        verify(auto).getAnio();
+        verify(auto).getCapacidadCargaKg();
+        verify(auto).getDetallesEspecificos();
     }
 
     // Restaurar System.out después de cada test
